@@ -52,14 +52,55 @@
             background-color: deepskyblue;
         }
     </style>
+    <!-- Adicionar os scripts do Firebase -->
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js";
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBxZedcrxzKIje59d_cyrk-G5P9v9EPu1U",
+            authDomain: "tisenac2024.firebaseapp.com",
+            projectId: "tisenac2024",
+            storageBucket: "tisenac2024.appspot.com",
+            messagingSenderId: "639572797138",
+            appId: "1:639572797138:web:0a6253b857f6a6356f2f0b",
+            measurementId: "G-0NM0PY8W2B"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        // Function to handle login
+        async function loginUser(event) {
+            event.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                const userCredential = await signInWithEmailAndPassword(auth, username, password);
+                // User logged in successfully
+                alert('Login successful');
+                console.log('User logged in:', userCredential.user);
+                // Redirecionar ou realizar outras ações
+            } catch (error) {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                alert('Login failed: ' + errorMessage);
+                console.error('Error:', errorCode, errorMessage);
+            }
+        }
+    </script>
 </head>
 <body>
     <div class="login-container">
         <h1>Login</h1>
-        <form action="login.php" method="post">
-            <input type="text" name="username" placeholder="Nome" required>
+        <form onsubmit="loginUser(event)">
+            <input type="text" id="username" placeholder="Nome" required>
             <br><br>
-            <input type="password" name="password" placeholder="Senha" required>
+            <input type="password" id="password" placeholder="Senha" required>
             <br><br>
             <button type="submit">Enviar</button>
         </form>
